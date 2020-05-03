@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<title>Robin Cam</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="./style.css" />
+		<script src="./node_modules/flv.js/dist/flv.js"></script>
+	</head>
+
+	<body>
+		<div id="loaderWrap">
+			<div id="loader" class="loader"></div>
+		</div>
+		<video id="videoElement"></video>
+		<script>
+			(function() {
+				if (!flvjs.isSupported()) { return; }
+
+				var videoElement = document.getElementById('videoElement');
+				var flvPlayer = flvjs.createPlayer({
+					hasAudio: false,
+					hasVideo: true,
+					isLive: true,
+					type: 'flv',
+					url: 'ws://localhost:8000/robin/cam.flv'
+				});
+				flvPlayer.attachMediaElement(videoElement);
+				flvPlayer.load();
+				flvPlayer.play();
+				flvPlayer.on(flvjs.Events.METADATA_ARRIVED, function() {
+					document.getElementById('loaderWrap').classList += ' hidden';
+				});
+			}());
+		</script> 
+	</body>
+
+</html>
